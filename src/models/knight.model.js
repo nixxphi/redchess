@@ -1,3 +1,4 @@
+// ./models/knight.model.js
 
 import Piece from './piece.model.js';
 
@@ -8,7 +9,26 @@ export default class Knight extends Piece {
 
   generatePossibleMoves(board) {
     const moves = [];
-    // Implement knight-specific move logic here
+    const [file, rank] = this.position.split('');
+    const currentRank = parseInt(rank);
+    const fileIndex = file.charCodeAt(0);
+
+    const potentialMoves = [
+      [fileIndex + 1, currentRank + 2], [fileIndex + 1, currentRank - 2],
+      [fileIndex - 1, currentRank + 2], [fileIndex - 1, currentRank - 2],
+      [fileIndex + 2, currentRank + 1], [fileIndex + 2, currentRank - 1],
+      [fileIndex - 2, currentRank + 1], [fileIndex - 2, currentRank - 1]
+    ];
+
+    potentialMoves.forEach(([f, r]) => {
+      if (f >= 97 && f <= 104 && r >= 1 && r <= 8) {
+        const move = `${String.fromCharCode(f)}${r}`;
+        if (!board[move] || board[move].color !== this.color) {
+          moves.push(move);
+        }
+      }
+    });
+
     return moves;
   }
 }
